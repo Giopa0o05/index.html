@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz di Chimica e Biochimica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .question {
+            margin: 20px 0;
+            padding: 15px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .answers button {
+            display: block;
+            margin: 5px 0;
+            padding: 10px;
+            background: #e0e0e0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .answers button:hover {
+            background: #dcdcdc;
+        }
+        .correct {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        .wrong {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+        .explanation {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f7f7f7;
+            border: 1px dashed #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Quiz di Chimica e Biochimica</h1>
+    <div id="quiz-container"></div>
+
+    <script>
+       const questions = [
+    { question: "Qual è lo stato di aggregazione caratterizzato da volumi e forme definiti?", answers: ["Liquido", "Gas", "Solido", "Plasma", "Colloide"], correct: 2 },
+    { question: "Quale particella subatomica determina l'identità chimica di un atomo?", answers: ["Neutrone", "Elettrone", "Protone", "Nucleo", "Orbita"], correct: 2 },
+    { question: "Qual è l'isotopo più abbondante dell'idrogeno?", answers: ["Deuterio", "Prozio", "Tritio", "Idrogeno-2", "Idrogeno-3"], correct: 1 },
+    { question: "Quale modello atomico descrive l'atomo come un nucleo circondato da orbite?", answers: ["Dalton", "Thomson", "Rutherford", "Bohr", "Schrödinger"], correct: 3 },
+    { question: "Qual è l'energia necessaria per rimuovere un elettrone da un atomo neutro?", answers: ["Affinità elettronica", "Energia di ionizzazione", "Elettronegatività", "Energia reticolare", "Energia di legame"], correct: 1 },
+    { question: "Qual è la forma più stabile di legame covalente tra due atomi?", answers: ["Singolo", "Doppio", "Triplo", "Metallico", "Ionico"], correct: 0 },
+    { question: "Quale forza intermolecolare è responsabile della struttura del ghiaccio?", answers: ["Dipolo-dipolo", "Legame a idrogeno", "Forze di London", "Van der Waals", "Legame ionico"], correct: 1 },
+    { question: "Cosa rappresenta il coefficiente stechiometrico in una reazione bilanciata?", answers: ["Massa molare", "Numero di moli", "Concentrazione", "Velocità", "Energia di attivazione"], correct: 1 },
+    { question: "Quale legge descrive la relazione tra volume e pressione?", answers: ["Boyle", "Charles", "Gay-Lussac", "Amagat", "Dalton"], correct: 0 },
+    { question: "Quale proprietà colligativa è alla base della pressione osmotica?", answers: ["Abbassamento della tensione di vapore", "Aumento ebollizione", "Diminuzione congelamento", "Numero di particelle", "Solubilità"], correct: 3 },
+    { question: "Quale zucchero è presente nel DNA?", answers: ["Glucosio", "Ribosio", "Deossiribosio", "Fruttosio", "Maltosio"], correct: 2 },
+    { question: "Qual è il prodotto della riduzione di un chetone?", answers: ["Alcol primario", "Alcol secondario", "Alcol terziario", "Aldeide", "Etere"], correct: 1 },
+    { question: "Qual è un esempio di amminoacido essenziale?", answers: ["Glicina", "Valina", "Alanina", "Prolina", "Asparagina"], correct: 1 },
+    { question: "Qual è il risultato dell'ossidazione completa del glucosio?", answers: ["Acido lattico", "ATP, H2O e CO2", "NADPH e ossigeno", "Piruvato e NAD+", "ADP e AMP"], correct: 1 },
+    { question: "Qual è la struttura primaria delle proteine?", answers: ["Struttura tridimensionale", "Sequenza di amminoacidi", "Legami disolfuro", "Alfa-elica", "Interazioni idrofobiche"], correct: 1 },
+    { question: "Quale base azotata è presente solo nell'RNA?", answers: ["Timina", "Uracile", "Citosina", "Adenina", "Guanina"], correct: 1 },
+    { question: "Quale molecola agisce come moneta energetica della cellula?", answers: ["GTP", "ATP", "NADH", "FAD", "CTP"], correct: 1 },
+    { question: "Qual è un cofattore enzimatico ossidoriduttivo?", answers: ["ATP", "NAD+", "FAD", "GTP", "ADP"], correct: 1 },
+    { question: "Qual è il ruolo principale degli enzimi?", answers: ["Sostituzione substrati", "Catalizzare reazioni", "Degradare substrati", "Trasportare energia", "Neutralizzare acidi"], correct: 1 },
+    { question: "Quale nucleotide trifosfato è coinvolto nella traduzione?", answers: ["UTP", "GTP", "CTP", "ATP", "TTP"], correct: 1 },
+    { question: "Qual è la base azotata NON presente nel DNA?", answers: ["Adenina", "Citosina", "Uracile", "Timina", "Guanina"], correct: 2 },
+    { question: "Quale reazione è comune agli alcheni?", answers: ["Addizione elettrofila", "Idrogenazione", "Eliminazione", "Addizione nucleofila", "Riduzione"], correct: 0 },
+    { question: "Quale reazione trasforma un acido grasso in trigliceride?", answers: ["Esterificazione", "Ossidazione", "Idrogenazione", "Disidratazione", "Polimerizzazione"], correct: 0 },
+    { question: "Qual è il ruolo del colesterolo nelle membrane?", answers: ["Rendere fluida", "Stabilizzare", "Degradare proteine", "Aumentare rigidità", "Neutralizzare acidi"], correct: 1 },
+    { question: "Qual è il prodotto della disidratazione degli alcoli?", answers: ["Alcheni", "Aldeidi", "Chetoni", "Acidi", "Esteri"], correct: 0 },
+    { question: "Quale forza è responsabile della tensione superficiale dell'acqua?", answers: ["Legami covalenti", "Legami a idrogeno", "Legami ionici", "Forze di London", "Interazioni dipolo-dipolo"], correct: 1 },
+    { question: "Quale tipo di legame unisce i nucleotidi nel DNA?", answers: ["Legami fosfodiesterici", "Legami idrogeno", "Legami ionici", "Legami covalenti", "Legami peptidici"], correct: 0 },
+    { question: "Qual è il ruolo principale dell'ATP?", answers: ["Catalizzare reazioni", "Fornire energia", "Stabilizzare proteine", "Trasferire DNA", "Neutralizzare radicali liberi"], correct: 1 },
+    { question: "Qual è un esempio di amminoacido acido?", answers: ["Acido glutammico", "Glicina", "Valina", "Prolina", "Serina"], correct: 0 },
+    { question: "Quale molecola è un precursore degli acidi grassi?", answers: ["Acetil-CoA", "Glicogeno", "Piruvato", "NADPH", "ATP"], correct: 0 },
+    { question: "Qual è un prodotto della sintesi degli steroidi?", answers: ["Colesterolo", "Fosfolipidi", "Trigliceridi", "Ceramidi", "Cere"], correct: 0 },
+    { question: "Qual è la funzione del NADH nella respirazione cellulare?", answers: ["Trasportare elettroni", "Sintetizzare ATP", "Fornire energia", "Ossidare glucosio", "Degradare lipidi"], correct: 0 },
+    { question: "Quale enzima è coinvolto nella sintesi del glicogeno?", answers: ["Glicogeno sintasi", "Amilasi", "Fosfatasi", "Idrolasi", "ATP sintasi"], correct: 0 },
+    { question: "Qual è il prodotto dell'idratazione di un alchene?", answers: ["Alcol", "Aldeide", "Chetoni", "Acido carbossilico", "Etere"], correct: 0 },
+    { question: "Qual è il ruolo del gruppo fosfato nei fosfolipidi?", answers: ["Renderli polari", "Renderli idrofobici", "Stabilizzarli nei liposomi", "Sintetizzare acidi grassi", "Trasferire energia"], correct: 0 },
+    { question: "Quale gruppo funzionale è presente nei carboidrati?", answers: ["Gruppo -OH e -CHO", "Gruppo -COOH", "Gruppo -NH2", "Gruppo -SH", "Gruppo -OPO3"], correct: 0 },
+    { question: "Quale è un esempio di ossidazione biologica?", answers: ["Formazione di ATP", "Ossidazione di glucosio", "Riduzione di NADH", "Produzione di acido lattico", "Sintesi di DNA"], correct: 1 },
+    { question: "Quale reazione chimica caratterizza la formazione di eteri?", answers: ["Condensazione", "Eliminazione", "Sostituzione nucleofila", "Idratazione", "Idrolisi"], correct: 0 }
+];
+
+        const quizContainer = document.getElementById("quiz-container");
+
+        questions.forEach((q, index) => {
+            const questionDiv = document.createElement("div");
+            questionDiv.className = "question";
+
+            const questionTitle = document.createElement("h3");
+            questionTitle.textContent = `${index + 1}. ${q.question}`;
+            questionDiv.appendChild(questionTitle);
+
+            const answersDiv = document.createElement("div");
+            answersDiv.className = "answers";
+
+            q.answers.forEach((answer, i) => {
+                const button = document.createElement("button");
+                button.textContent = answer;
+                button.onclick = () => checkAnswer(i, q.correct, button, questionDiv);
+                answersDiv.appendChild(button);
+            });
+
+            questionDiv.appendChild(answersDiv);
+            quizContainer.appendChild(questionDiv);
+        });
+
+        function checkAnswer(selected, correct, button, questionDiv) {
+            if (selected === correct) {
+                button.classList.add("correct");
+                showExplanation(questionDiv, "Risposta corretta!");
+            } else {
+                button.classList.add("wrong");
+                const correctButton = questionDiv.querySelectorAll("button")[correct];
+                correctButton.classList.add("correct");
+                showExplanation(questionDiv, `Risposta sbagliata! La risposta corretta è: "${correctButton.textContent}".`);
+            }
+        }
+
+        function showExplanation(questionDiv, text) {
+            const explanationDiv = document.createElement("div");
+            explanationDiv.className = "explanation";
+            explanationDiv.textContent = text;
+            questionDiv.appendChild(explanationDiv);
+        }
+    </script>
+</body>
+</html>
